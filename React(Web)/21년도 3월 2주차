@@ -1,0 +1,42 @@
+## 210307
+
+---
+
+랜덤 난수 뽑기 복습
+
+→ Math.random() * (max - min) + min
+styled-component 키프레임, props, animaiton 복습
+border 그라이데이션 애니메이션
+
+BRP 추가해야될 기능들 정리
+
+React Git pages 써보기
+참고: [https://medium.com/@mr.november11/github-pages로-react-프로젝트-무료-호스팅하기-c547b85667a6](https://medium.com/@mr.november11/github-pages%EB%A1%9C-react-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%AC%B4%EB%A3%8C-%ED%98%B8%EC%8A%A4%ED%8C%85%ED%95%98%EA%B8%B0-c547b85667a6)
+
+## 210310
+
+---
+
+- Styled-Component로 `<globalStyle />` 를 만들어 사용하니까 웹 폰트가 적용이 안되서 global.css 파일 만들어서 import 하는것으로 해결했습니다. ( 띠용쓰 )
+- React에서 `input` 태그 말고 그냥 페이지 전체에서 'Space' 나 'Enter' 키를 받는 이벤트는 어떻게 처리하나 싶었는데, `useEffect` 를 사용하면 가능했습니다.
+
+```jsx
+useEffect(() => {
+	const handleKeyDown = (e) => {
+			if (e.key !== ' ') {
+				return;
+			}
+			e.preventDefault();
+		}
+		
+		document.addEventListener(("keydown"), handleKeyDown);
+		
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		}
+}, [deps])
+```
+
+return을 통해서 cleanUp 작업을 꼭 하라고 하던데 자세한 이유까지는 아직 모르겠습니다.
+
+- 별거아닌 기능이나 작업이여도 브랜치를 따로 파서 PR을 날려서 작업해보는 방식으로 진행하고 있습니다!

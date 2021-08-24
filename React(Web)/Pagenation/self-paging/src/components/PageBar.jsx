@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import usePages from "../hooks/usePages";
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const Container = styled.div`
   border: 1px solid #fff;
 `;
 
-const PageItem = styled.div`
+const PageItemContainer = styled.div`
   width: 40px;
   height: 40px;
   text-align: center;
@@ -27,16 +28,35 @@ const PageItem = styled.div`
   }
 `;
 
-const PageBar = () => {
+const PageItem = ({ cur, value, changeCurPage }) => {
   return (
-    <Container>
-      <PageItem>1</PageItem>
-      <PageItem>2</PageItem>
-      <PageItem cur>3</PageItem>
-      <PageItem>4</PageItem>
-      <PageItem>5</PageItem>
-    </Container>
+    <PageItemContainer
+      cur={cur}
+      key={value}
+      onClick={() => changeCurPage(value)}
+    >
+      {value}
+    </PageItemContainer>
   );
+};
+
+const PageBar = () => {
+  const [{ curPage }, changeCurPage] = usePages();
+  const list = [1, 2, 3, 4, 5];
+
+  const checkCur = (value) => {
+    if (value === curPage) {
+      return (
+        <PageItem changeCurPage={changeCurPage} value={value} key={value} cur />
+      );
+    } else {
+      return (
+        <PageItem changeCurPage={changeCurPage} value={value} key={value} />
+      );
+    }
+  };
+
+  return <Container>{list.map((item) => checkCur(item))}</Container>;
 };
 
 export default PageBar;

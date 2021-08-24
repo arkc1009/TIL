@@ -12,11 +12,10 @@ const Container = styled.div`
 `;
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
 
   return (
     <Container>
-      <Contents todos={todos} />
+      <Contents />
       <PageBar />
     </Container>
   );

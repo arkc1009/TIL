@@ -14,10 +14,7 @@ export const TodoProvider = ({ children }) => {
 
   return (
     <Context.Provider
-      value={[
-        { id: 1, title: "123" },
-        { id: 2, title: "12421" },
-      ]}
+      value={todos}
     >
       {children}
     </Context.Provider>

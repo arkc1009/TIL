@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import usePages from "../hooks/usePages";
 import useTodos from "../hooks/useTodos";
 
 const Container = styled.div`
@@ -15,23 +16,34 @@ const ItemContainer = styled.div`
 `;
 
 const Item = ({ todo }) => {
-  const { id, title } = todo;
-  return <ItemContainer key={id}>{title}</ItemContainer>;
+  const { title, id } = todo;
+  return (
+    <ItemContainer>
+      {title} {id}
+    </ItemContainer>
+  );
 };
 
 const Contents = () => {
   const todos = useTodos();
+  const pageState = usePages();
+  const { curPage, limitSize } = pageState[0];
   const [curTodos, setCurTodos] = useState([]);
 
   useEffect(() => {
-    console.log(todos);
-  }, []);
+    if (todos.length <= 0) {
+      return;
+    }
+
+    const temp = limitSize * curPage;
+    setCurTodos((prevTodo) => todos[0].slice(temp - limitSize, temp));
+  }, [todos, setCurTodos, curPage]);
 
   return (
     <Container>
-      {/* {curTodos.map((todo) => (
-        <Item todo={todo} />
-      ))} */}
+      {curTodos.map((todo) => (
+        <Item todo={todo} key={todo.id} />
+      ))}
     </Container>
   );
 };

@@ -25,24 +25,27 @@ const Item = ({ todo }) => {
 };
 
 const Contents = () => {
-  const todos = useTodos();
+  const { todo, length } = useTodos();
   const pageState = usePages();
   const { curPage, limitSize } = pageState[0];
   const [curTodos, setCurTodos] = useState([]);
 
   useEffect(() => {
-    if (todos.length <= 0) {
+    if (length <= 0) {
       return;
     }
 
+    console.log(todo, length);
     const temp = limitSize * curPage;
-    setCurTodos((prevTodo) => todos[0].slice(temp - limitSize, temp));
-  }, [todos, setCurTodos, curPage]);
+    setCurTodos((prevTodo) =>
+      length >= limitSize ? todo.slice(temp - limitSize, temp) : todo
+    );
+  }, [setCurTodos, curPage, todo, limitSize, length]);
 
   return (
     <Container>
-      {curTodos.map((todo) => (
-        <Item todo={todo} key={todo.id} />
+      {curTodos.map((t) => (
+        <Item todo={t} key={t.id} />
       ))}
     </Container>
   );

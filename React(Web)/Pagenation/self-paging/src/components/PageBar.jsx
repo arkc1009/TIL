@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import usePages from "../hooks/usePages";
+import useTodos from "../hooks/useTodos";
 
 const Container = styled.div`
   display: flex;
@@ -40,8 +41,14 @@ const PageItem = ({ cur, value, changeCurPage }) => {
   );
 };
 
+const PagingButton = ({ children, onClick }) => {
+  return <PageItemContainer onClick={onClick}>{children}</PageItemContainer>;
+};
+
 const PageBar = () => {
   const [{ curPage }, changeCurPage] = usePages();
+  const { length } = useTodos();
+  const [pageState, setPageState] = useState(0);
   const list = [1, 2, 3, 4, 5];
 
   const checkCur = (value) => {
@@ -56,7 +63,33 @@ const PageBar = () => {
     }
   };
 
-  return <Container>{list.map((item) => checkCur(item))}</Container>;
+  useEffect(() => {
+    console.log(pageState);
+  }, [pageState]);
+
+  return (
+    <Container>
+      <PagingButton
+        onClick={() =>
+          setPageState((prevState) =>
+            prevState > 1 ? prevState - 1 : prevState
+          )
+        }
+      >
+        {"<"}
+      </PagingButton>
+      {list.map((item) => checkCur(item + pageState * 5))}
+      <PagingButton
+        onClick={() =>
+          setPageState((prevState) =>
+            prevState + 1 < length / 25 ? prevState + 1 : prevState
+          )
+        }
+      >
+        {">"}
+      </PagingButton>
+    </Container>
+  );
 };
 
 export default PageBar;
